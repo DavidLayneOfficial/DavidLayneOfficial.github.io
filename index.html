@@ -71,6 +71,148 @@
 
     <body>
 
+    <?php 
+//-----------------------------------------------------------------------------------------------------------------------------------------
+//MSFT
+      $apikey = "NTAI6RVV2ETMBKO6";
+      $url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT&interval=5min&apikey=$apikey";
+      $data = file_get_contents($url);
+      $new_data = substr($data, 326);
+
+      $data2 = substr($data, -30000, 293);
+      $data_info = substr($data2, 20);
+
+      $row = explode("},",$new_data); 
+      //all data is saved into a row, must try to exclude code in rows and rows that only contain code
+      $count = count($row);
+
+      for($x=0; $x< $count; $x++)
+      {
+        $interval[] = explode(",",$row[$x]);
+      }
+
+      //COLLECTING VARIABLE FOR ALGO
+      echo "<pre>";
+
+      $int1 = $interval[0][0];
+      $int_1 = substr($int1, -9, -1);
+      $int_num1 = (float)$int_1;
+    
+      $int2 = $interval[99][3];
+      $int_2 = substr($int2, -9, -1);
+      $int_num2 = (float)$int_2;
+
+      //ALGO
+      //$int_sum = $int_num1 + $int_num2;
+      //$int_comp = $int_sum/2;                      //determines average of $int_num1 and $int_num2
+      //$int_comp = number_format($int_comp, 2);
+
+      if ($int_num2 > $int_num1){
+        $var_output = "BUY";
+      } else {
+        $var_output = "SHORT";
+      }
+
+      //prints entire data file:
+      //print_r($interval);
+      echo "</pre>";
+
+//-----------------------------------------------------------------------------------------------------------------------------------------
+//AAPL
+
+      $url_aapl = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=AAPL&interval=5min&apikey=$apikey";
+      $data_aapl = file_get_contents($url_aapl);
+      $new_data_aapl = substr($data_aapl, 326);
+
+      $data2_aapl = substr($data_aapl, -30000, 293);
+      $data_info_aapl = substr($data2_aapl, 20);
+
+      $row_aapl = explode("},",$new_data_aapl); 
+      //all data is saved into a row, must try to exclude code in rows and rows that only contain code
+      $count_aapl = count($row_aapl);
+
+      for($x_aapl=0; $x_aapl< $count; $x_aapl++)
+      {
+        $interval_aapl[] = explode(",",$row_aapl[$x_aapl]);
+      }
+
+      //COLLECTING VARIABLE FOR ALGO
+      echo "<pre>";
+
+      $int1_aapl = $interval_aapl[0][0];
+      $int_1_aapl = substr($int1_aapl, -9, -1);
+      $int_num1_aapl = (float)$int_1_aapl;
+    
+      $int2_aapl = $interval_aapl[99][3];
+      $int_2_aapl = substr($int2_aapl, -9, -1);
+      $int_num2_aapl = (float)$int_2_aapl;
+
+      //ALGO
+      //$int_sum = $int_num1 + $int_num2;
+      //$int_comp = $int_sum/2;                      //determines average of $int_num1 and $int_num2
+      //$int_comp = number_format($int_comp, 2);
+
+      if ($int_num2_aapl > $int_num1_aapl){
+        $var_output_aapl = "BUY";
+      } else {
+        $var_output_aapl = "SHORT";
+      }
+
+      //prints entire data file:
+      //print_r($interval);
+      echo "</pre>";
+
+
+//-----------------------------------------------------------------------------------------------------------------------------------------
+//BTC
+/*
+      $url_btc = "https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_DAILY&symbol=BTC&market=CNY&apikey=$apikey";
+      $data_btc = file_get_contents($url_btc);
+      $new_data_btc = substr($data_btc, 326);
+
+      $data2_btc = substr($data_btc, -30000, 293);
+      $data_info_btc = substr($data2_btc, 20);
+
+      $row_btc = explode("},",$new_data_btc); 
+      //all data is saved into a row, must try to exclude code in rows and rows that only contain code
+      $count_btc = count($row_btc);
+
+      for($x_btc=0; $x_btc< $count; $x_btc++)
+      {
+        $interval_btc[] = explode(",",$row_btc[$x_btc]);
+      }
+
+      //COLLECTING VARIABLE FOR ALGO
+      echo "<pre>";
+
+      $int1_btc = $interval_btc[0][0];
+      $int_1_btc = substr($int1_btc, -9, -1);
+      $int_num1_btc = (float)$int_1_btc;
+    
+      $int2_btc = $interval_btc[99][3];
+      $int_2_btc = substr($int2_btc, -9, -1);
+      $int_num2_btc = (float)$int_2_btc;
+
+      //ALGO
+      //$int_sum = $int_num1 + $int_num2;
+      //$int_comp = $int_sum/2;                      //determines average of $int_num1 and $int_num2
+      //$int_comp = number_format($int_comp, 2);
+
+      if ($int_num2_btc > $int_num1_btc){
+        $var_output_btc = "BUY";
+      } else {
+        $var_output_btc = "SHORT";
+      }
+
+      //prints entire data file:
+      //print_r($interval);
+      echo "</pre>";
+*/
+
+    ?>
+
+
+
       <div class="site_title">
 
         <h1 class="lc"><u>Layne Corp</u></h1>
@@ -81,57 +223,24 @@
 
       <div class="body">
 
-        <h1 class="main_section_title">Forecasts:</h1>
-        
-        <h1 class="table_title">1 Week</h1>
+        <h1 class="main_section_title">1 Day Forecasts:</h1>
         
         <table>
         
           <tr>
             <td>
-              BTC / USD: <span class="buy">Buy</span>
+              MSFT / USD: <span class="buy"><?php echo $var_output?></span>
             </td>
           </tr>
           
           <tr>
             <td>
-              ETH / USD: <span class="sell">Sell</span>
+              AAPL / USD: <span class="sell"><?php echo $var_output_aapl?></span>
             </td>
           </tr>
           
         </table>
-        
-        <h1 class="table_title">1 Month</h1>
-        
-        <table>
-          <tr>
-            <td>
-              BTC / USD: <span class="sell">Sell</span>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              ETH / USD: <span class="buy">Buy</span>
-            </td>
-          </tr>
-        </table>
-        
-        <h1 class="table_title">5 Year</h1>
-        
-        <table>
-          <tr>
-            <td>
-              BTC / USD: <span class="buy">Buy</span>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              ETH / USD: <span class="sell">Sell</span>
-            </td>
-          </tr>
-          
-        </table>
-        
+      
       </div>
 
     </body>
